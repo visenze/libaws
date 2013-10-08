@@ -56,6 +56,7 @@
 #include <cassert>
 #include <stdio.h>
 #include <unistd.h>
+#include <stddef.h>
 
 #include <libaws/aws.h>
 #include "properties.h"
