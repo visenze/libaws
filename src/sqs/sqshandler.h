@@ -42,7 +42,10 @@ namespace aws {
           MD5OfMessageBody 	= 64,
           ReceiptHandle			= 128,
           Body							= 256,
-          MetaData          = 512
+          MetaData          = 512,
+          Attribute         = 1024,  // magiczhao add
+          AttributeName     = 2048,  // magiczhao add
+          AttributeValue    = 4096   // magiczhao add
         };
 
         virtual void startElement ( const xmlChar *  localname, int nb_attributes, const xmlChar ** attributes );
@@ -112,6 +115,7 @@ namespace aws {
       private:
         std::string theBody;
         bool theDecode;
+        std::string currentAttributeName;
       protected:
         friend class SQSConnection;
         ReceiveMessageResponse* theReceiveMessageResponse;

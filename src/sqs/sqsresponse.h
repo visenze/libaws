@@ -88,6 +88,7 @@ namespace aws {
           std::string message_id;
           uint64_t    meta_data;
           std::string receipt_handle;
+          uint64_t    approximate_count;
         };
 
         ~ReceiveMessageResponse();
