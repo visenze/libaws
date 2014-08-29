@@ -190,10 +190,10 @@ namespace aws {
     ReceiveMessageHandler::responseStartElement ( const xmlChar * localname, int nb_attributes, const xmlChar ** attributes )
     {
       if ( xmlStrEqual ( localname, BAD_CAST "ReceiveMessageResponse" ) ) {
-      	theReceiveMessageResponse = new ReceiveMessageResponse();
+        theReceiveMessageResponse = new ReceiveMessageResponse();
       } else if ( xmlStrEqual ( localname, BAD_CAST "Message" ) ) {
-      	ReceiveMessageResponse::Message lMessage;
-      	theReceiveMessageResponse->theMessages.push_back(lMessage);
+        ReceiveMessageResponse::Message lMessage;
+        theReceiveMessageResponse->theMessages.push_back(lMessage);
       } else if ( xmlStrEqual ( localname, BAD_CAST "MessageId" ) ) {
         setState ( MessageId );
       } else if ( xmlStrEqual ( localname, BAD_CAST "ReceiptHandle" ) ) {
@@ -202,26 +202,36 @@ namespace aws {
         setState ( MD5OfMessageBody );
       } else if ( xmlStrEqual ( localname, BAD_CAST "Body" ) ) {
         setState ( Body );
-      }else if ( xmlStrEqual ( localname, BAD_CAST "MetaData" ) ) {
+      } else if ( xmlStrEqual ( localname, BAD_CAST "MetaData" ) ) {
         setState ( MetaData );
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Attribute" ) ) {
+        setState ( Attribute );
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Name" ) ) {  // magiczhao add
+        if ( isSet ( Attribute ) ) {
+          setState ( AttributeName );
+        }
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Value" ) ) {
+        if ( isSet ( Attribute ) ) {
+          setState ( AttributeValue );
+        }
       }
     }
 
     void
     ReceiveMessageHandler::responseCharacters ( const xmlChar *  value, int len )
     {
-    	if ( isSet ( MessageId ) ) {
-    		ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
-    		std::string lMessageId((const char*)value, len);
-    		lMessage.message_id = lMessageId;
-    	} else if ( isSet ( ReceiptHandle )) {
-    		ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
-    		std::string lReceiptHandle((const char*)value, len);
-    		lMessage.receipt_handle = lReceiptHandle;
-    	} else if ( isSet ( MD5OfMessageBody )) {
-    		ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
-    		std::string lMessageMD5((const char*)value, len);
-    		lMessage.message_md5 = lMessageMD5;
+      if ( isSet ( MessageId ) ) {
+        ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
+        std::string lMessageId((const char*)value, len);
+        lMessage.message_id = lMessageId;
+      } else if ( isSet ( ReceiptHandle )) {
+        ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
+        std::string lReceiptHandle((const char*)value, len);
+        lMessage.receipt_handle = lReceiptHandle;
+      } else if ( isSet ( MD5OfMessageBody )) {
+        ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
+        std::string lMessageMD5((const char*)value, len);
+        lMessage.message_md5 = lMessageMD5;
       } else if ( isSet ( MetaData )) {
         ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
         std::string lMetaDataStr((const char*)value, len);
@@ -230,22 +240,34 @@ namespace aws {
         lMessage.meta_data = lMetaData;
       } else if ( isSet ( Body )) {
         theBody.append( (const char*)value, len );
-    	}
+      } else if ( isSet ( AttributeName )) { // magiczhao add
+        currentAttributeName.assign ((const char*)value, len);
+      } else if ( isSet ( AttributeValue )) {
+        if ( currentAttributeName == "ApproximateReceiveCount" ) { 
+          ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
+          char* buffer = new char[len + 1]; 
+          strncpy (buffer, (const char*)value, len);
+          buffer[len] = '\0';
+          lMessage.approximate_count = atoi(buffer);
+          delete [] buffer;
+        }
+      }
+
     }
 
     void
     ReceiveMessageHandler::responseEndElement ( const xmlChar * localname )
     {
       if ( xmlStrEqual ( localname, BAD_CAST "MessageId" ) ) {
-      	unsetState ( MessageId );
+        unsetState ( MessageId );
       } else if ( xmlStrEqual ( localname, BAD_CAST "ReceiptHandle" ) ) {
-      	unsetState ( ReceiptHandle );
+        unsetState ( ReceiptHandle );
       } else if ( xmlStrEqual ( localname, BAD_CAST "MD5OfBody" ) ) {
-      	unsetState ( MD5OfMessageBody );
+        unsetState ( MD5OfMessageBody );
       } else if ( xmlStrEqual ( localname, BAD_CAST "MetaData" ) ) {
         unsetState ( MetaData );
       }else if ( xmlStrEqual ( localname, BAD_CAST "Body" ) ) {
-      	unsetState ( Body );
+        unsetState ( Body );
         ReceiveMessageResponse::Message& lMessage = theReceiveMessageResponse->theMessages.back();
         if (theDecode) {
           lMessage.message_body = AWSConnection::base64Decode(theBody.c_str(), theBody.size(), lMessage.message_size);
@@ -255,10 +277,17 @@ namespace aws {
           lMessage.message_body = lBody;
           lMessage.message_size = theBody.size();
         }
-        //std::cout << std::endl << "ID" << lMessage.message_id << "Original[" << theBody << "]" << std::endl;
-        //std::cout << std::endl << "ID" << lMessage.message_id << "Encoded[" << lMessage.message_body  << "]" << std::endl;
-        //std::cout << std::endl << "UNSET BODY " << "ID" << lMessage.message_id << std::endl;
         theBody.clear();
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Name" ) ) {  // magiczhao add
+        if ( isSet ( AttributeName ) ) {
+          setState ( Attribute );
+        }
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Value" ) ) {
+        if ( isSet ( AttributeValue ) ) {
+          setState ( Attribute );
+        }
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Attribute" ) ) {
+        unsetState ( Attribute );
       }
     }
 
