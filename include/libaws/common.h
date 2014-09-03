@@ -105,6 +105,9 @@ namespace aws {
   class DeleteMessageResponse;
   typedef SmartPtr<DeleteMessageResponse> DeleteMessageResponsePtr;
 
+  class GetQueueAttributesResponse;
+  typedef SmartPtr<GetQueueAttributesResponse> GetQueueAttributesResponsePtr;
+
   /**
    * SDB stuff
    */

@@ -11,8 +11,7 @@
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ * limitations under the License.  */
 #ifndef AWS_SQSEXCEPTION_API_H
 #define AWS_SQSEXCEPTION_API_H
 
@@ -128,6 +127,15 @@ namespace aws {
 			friend class sqs::SQSConnection;
 			CreateQueueException(const QueryErrorResponse&);
 	};
+
+    class GetQueueAttributesException : public SQSException
+    {
+        public:
+            virtual ~GetQueueAttributesException() throw();
+        private:
+            friend class sqs::SQSConnection;
+            GetQueueAttributesException(const QueryErrorResponse&);
+    };
 
 	class DeleteQueueException : public SQSException
 	{

@@ -309,5 +309,47 @@ namespace aws {
     {
     }
 
+    void
+    GetQueueAttributesHandler::responseStartElement ( const xmlChar* localname, int nb_attributes, const xmlChar** attributes )
+    {
+      if ( xmlStrEqual ( localname, BAD_CAST "GetQueueAttributesResponse" )) {
+        theGetQueueAttributesResponse = new GetQueueAttributesResponse();
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Attribute" )) {
+        setState ( Attribute );
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Name")) {
+          setState ( AttributeName );
+      } else if ( xmlStrEqual ( localname, BAD_CAST "Value")) {
+          setState ( AttributeValue );
+      }
+    }
+
+    void
+    GetQueueAttributesHandler::responseCharacters ( const xmlChar* value, int len )
+    {
+      if ( isSet( AttributeName ) ) {
+        currAttributeName.assign((const char*)value, len);
+      } else if ( isSet( AttributeValue ) ) {
+        if (currAttributeName == "ApproximateNumberOfMessages") {
+            std::string value_str((const char*)value, len);
+            theGetQueueAttributesResponse->approximateNumberOfMessages = atoi(value_str.c_str());
+        } else if (currAttributeName == "ApproximateNumberOfMessagesNotVisible") {
+            std::string value_str((const char*)value, len);
+            theGetQueueAttributesResponse->approximateNumberOfMessagesNotVisible =
+                    atoi(value_str.c_str());
+        }
+      }
+    }
+
+    void
+    GetQueueAttributesHandler::responseEndElement ( const xmlChar* localname )
+    {
+      if ( xmlStrEqual ( localname, BAD_CAST "Name" )) {
+        unsetState ( AttributeName );
+      } else if ( xmlStrEqual (localname, BAD_CAST "Value" )) {
+        unsetState ( AttributeValue );
+      } else if ( xmlStrEqual (localname, BAD_CAST "Attribute")) {
+        unsetState( Attribute );
+      }
+    }
   } /* namespace sqs  */
 } /* namespace aws */

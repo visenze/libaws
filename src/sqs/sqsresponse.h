@@ -72,9 +72,25 @@ namespace aws {
         getMD5OfMessageBody() const;
 
       protected:
-        friend class SendMessageHandler;;
+        friend class SendMessageHandler;
         std::string theMessageId;
         std::string theMD5OfMessageBody;
+    };
+
+    class GetQueueAttributesResponse : public QueryResponse
+    {
+      public:
+        GetQueueAttributesResponse() : approximateNumberOfMessages(0),
+            approximateNumberOfMessagesNotVisible(0)
+        {}
+
+        int getNumberOfMessages() {return approximateNumberOfMessages;}
+        int getNumberOfNotVisibleMessages() {return approximateNumberOfMessagesNotVisible;}
+
+      protected:
+        friend class GetQueueAttributesHandler;
+        int approximateNumberOfMessages;
+        int approximateNumberOfMessagesNotVisible;
     };
 
     class ReceiveMessageResponse : public QueryResponse

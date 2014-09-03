@@ -53,6 +53,9 @@ namespace aws {
       virtual DeleteMessageResponsePtr
       deleteMessage(const std::string &aQueueUrl, const std::string &aReceiptHandle);
 
+      virtual GetQueueAttributesResponsePtr
+      getQueueAttributes( const std::string &aQueueUrl );
+
     protected:
       // only the factory can create us
       friend class AWSConnectionFactoryImpl;

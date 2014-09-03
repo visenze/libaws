@@ -27,6 +27,7 @@ namespace aws {
     class SendMessageResponse;
     class ReceiveMessageResponse;
     class DeleteMessageResponse;
+    class GetQueueAttributesResponse;
 
     class QueueErrorHandler : public SimpleQueryCallBack{
       
@@ -69,6 +70,19 @@ namespace aws {
         virtual void responseCharacters ( const xmlChar *  value, int len );
         virtual void responseEndElement ( const xmlChar *  localname );
 
+    };
+    
+    class GetQueueAttributesHandler: public QueueErrorHandler
+    {
+      protected:
+        friend class SQSConnection;
+        GetQueueAttributesResponse* theGetQueueAttributesResponse;
+        std::string currAttributeName;
+
+      public:
+        virtual void responseStartElement ( const xmlChar *  localname, int nb_attributes, const xmlChar ** attributes );
+        virtual void responseCharacters ( const xmlChar *  value, int len );
+        virtual void responseEndElement ( const xmlChar *  localname );
     };
 
     class DeleteQueueHandler : public QueueErrorHandler

@@ -31,6 +31,7 @@ namespace aws {
       class SendMessageResponse;
       class ReceiveMessageResponse;
       class DeleteMessageResponse;
+      class GetQueueAttributesResponse;
   } /* namespace sqs */
 
   template <class T>
@@ -108,6 +109,18 @@ namespace aws {
       getMD5OfMessageBody() const;
       
       SendMessageResponse(sqs::SendMessageResponse*);
+  };
+  
+  class GetQueueAttributesResponse : public SQSResponse<sqs::GetQueueAttributesResponse> 
+  {
+    public:
+      ~GetQueueAttributesResponse() {}
+      int getNumberOfMessages();
+      int getNumberOfNotVisibleMessages();
+
+    protected:
+      friend class SQSConnectionImpl;
+      GetQueueAttributesResponse(sqs::GetQueueAttributesResponse*);
   };
 
   class ReceiveMessageResponse : public SQSResponse<sqs::ReceiveMessageResponse>
