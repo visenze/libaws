@@ -33,6 +33,7 @@ namespace aws {
     class SendMessageResponse;
     class ReceiveMessageResponse;
     class DeleteMessageResponse;
+    class GetQueueAttributesResponse;
 
     class SQSConnection : public AWSQueryConnection
     {
@@ -50,6 +51,9 @@ namespace aws {
                       const std::string& aHost,
                       int aPort,
                       bool aIsSecure);
+
+        virtual GetQueueAttributesResponse*
+        getQueueAttributes( const std::string &aQueueUrl );
 
         virtual CreateQueueResponse*
         createQueue ( const std::string &aQueueName, int aDefaultVisibilityTimeout );

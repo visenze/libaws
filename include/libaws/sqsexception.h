@@ -129,6 +129,15 @@ namespace aws {
 			CreateQueueException(const QueryErrorResponse&);
 	};
 
+    class GetQueueAttributesException : public SQSException
+    {
+        public:
+            virtual ~GetQueueAttributesException() throw();
+        private:
+            friend class sqs::SQSConnection;
+            GetQueueAttributesException(const QueryErrorResponse&);
+    };
+
 	class DeleteQueueException : public SQSException
 	{
 	public:

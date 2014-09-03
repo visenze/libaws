@@ -67,6 +67,20 @@ namespace aws {
   DeleteQueueResponse::DeleteQueueResponse(sqs::DeleteQueueResponse* r)
     : SQSResponse<sqs::DeleteQueueResponse>(r) {}
 
+  GetQueueAttributesResponse::GetQueueAttributesResponse(sqs::GetQueueAttributesResponse* r)
+    : SQSResponse<sqs::GetQueueAttributesResponse>(r) {}
+
+  int
+  GetQueueAttributesResponse::getNumberOfMessages()
+  {
+    return theSQSResponse->getNumberOfMessages();
+  }
+
+  int
+  GetQueueAttributesResponse::getNumberOfNotVisibleMessages()
+  {
+    return theSQSResponse->getNumberOfNotVisibleMessages();
+  }
   /**
    * ListQueuesResponse
    */

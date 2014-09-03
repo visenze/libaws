@@ -153,10 +153,7 @@ namespace aws {
     // can possibly be removed with a newer curl version
     // because it will always copy
     std::string lUrlString = lUrl.str();
-
     LOG_INFO("Send request:" << lUrlString);
-    
-    
     
     //std::cout << lUrlString << std::endl;
     // set the request url

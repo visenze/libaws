@@ -49,6 +49,9 @@ namespace aws {
 
       virtual DeleteMessageResponsePtr
       deleteMessage(const std::string &aQueueUrl, const std::string &aReceiptHandle) = 0;
+      
+      virtual GetQueueAttributesResponsePtr
+      getQueueAttributes( const std::string &aQueueUrl ) = 0;
 
   }; /* class SQSConnection */
 

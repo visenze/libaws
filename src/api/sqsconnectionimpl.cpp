@@ -65,6 +65,12 @@ namespace aws {
     return new DeleteMessageResponse(theConnection->deleteMessage(aQueueUrl, aReceiptHandle));
   }
 
+  GetQueueAttributesResponsePtr
+  SQSConnectionImpl::getQueueAttributes(const std::string& aQueueUrl)
+  {
+    return new GetQueueAttributesResponse(theConnection->getQueueAttributes(aQueueUrl));
+  }
+
   SQSConnectionImpl::SQSConnectionImpl(const std::string& aAccessKeyId,
                                        const std::string& aSecretAccessKey,
                                        const std::string& aCustomHost)

@@ -152,7 +152,8 @@ namespace aws { namespace sqs {
         s << aVisibilityTimeout;
         lMap.insert (ParameterPair ("VisibilityTimeout", s.str()));
       }
-  
+    lMap.insert (ParameterPair ("AttributeName", "All"));
+    lMap.insert (ParameterPair ("Version", "2009-02-01"));
     return receiveMessage (aQueueUrl, lMap, aDecode);
   } 
   
@@ -168,6 +169,22 @@ namespace aws { namespace sqs {
       } else {
         throw ReceiveMessageException (lHandler.getQueryErrorResponse());
       }
+  }
+
+  GetQueueAttributesResponse*
+  SQSConnection::getQueueAttributes(const std::string& aQueueUrl)
+  {
+    ParameterMap lMap;
+    lMap.insert( ParameterPair ("AttributeName.1", "All"));
+    lMap.insert( ParameterPair ("Version", "2012-11-05"));
+    GetQueueAttributesHandler lHandler;
+    makeQueryRequest(aQueueUrl, "GetQueueAttributes", &lMap, &lHandler);
+    if (lHandler.isSuccessful()) {
+      setCommons(lHandler, lHandler.theGetQueueAttributesResponse);
+      return lHandler.theGetQueueAttributesResponse;
+    } else {
+      throw GetQueueAttributesException (lHandler.getQueryErrorResponse());
+    }
   }
 
   DeleteMessageResponse*

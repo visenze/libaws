@@ -54,6 +54,11 @@ namespace aws {
 
     CreateQueueException::~CreateQueueException() throw() {}
 
+    GetQueueAttributesException::GetQueueAttributesException (const QueryErrorResponse& aError)
+        : SQSException (aError) {}
+
+    GetQueueAttributesException::~GetQueueAttributesException() throw() {}
+
     ListQueuesException::ListQueuesException (const QueryErrorResponse& aError)
         : SQSException (aError) {}
 
