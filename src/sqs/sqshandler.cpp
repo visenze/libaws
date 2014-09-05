@@ -336,6 +336,15 @@ namespace aws {
             std::string value_str((const char*)value, len);
             theGetQueueAttributesResponse->approximateNumberOfMessagesNotVisible =
                     atoi(value_str.c_str());
+        } else if (currAttributeName == "CreatedTimestamp") {
+            std::string value_str((const char*)value, len);
+            theGetQueueAttributesResponse->createTime = atoi(value_str.c_str());
+        } else if (currAttributeName == "LastModifiedTimestamp") {
+            std::string value_str((const char*)value, len);
+            theGetQueueAttributesResponse->lastModifiedTime = atoi(value_str.c_str());
+        } else if (currAttributeName == "MessageRetentionPeriod") {
+            std::string value_str((const char*)value, len);
+            theGetQueueAttributesResponse->messageRetentionPeriod = atoi(value_str.c_str());
         }
       }
     }

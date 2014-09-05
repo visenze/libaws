@@ -81,6 +81,24 @@ namespace aws {
   {
     return theSQSResponse->getNumberOfNotVisibleMessages();
   }
+
+  time_t
+  GetQueueAttributesResponse::getLastModifiedTime()
+  {
+    return theSQSResponse->getLastModifiedTime();
+  }
+
+  time_t
+  GetQueueAttributesResponse::getCreateTime()
+  {
+    return theSQSResponse->getCreateTime();
+  }
+  int
+  GetQueueAttributesResponse::getMessageRetentionPeriod()
+  {
+    return theSQSResponse->getMessageRetentionPeriod();
+  }
+
   /**
    * ListQueuesResponse
    */

@@ -86,11 +86,17 @@ namespace aws {
 
         int getNumberOfMessages() {return approximateNumberOfMessages;}
         int getNumberOfNotVisibleMessages() {return approximateNumberOfMessagesNotVisible;}
+        time_t getLastModifiedTime() {return lastModifiedTime;}
+        time_t getCreateTime() {return createTime;}
+        int getMessageRetentionPeriod() {return messageRetentionPeriod;}
 
       protected:
         friend class GetQueueAttributesHandler;
         int approximateNumberOfMessages;
         int approximateNumberOfMessagesNotVisible;
+        time_t lastModifiedTime;
+        time_t createTime;
+        int messageRetentionPeriod;
     };
 
     class ReceiveMessageResponse : public QueryResponse
