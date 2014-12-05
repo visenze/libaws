@@ -120,7 +120,7 @@ namespace aws {
     for ( ParameterMapIter lIter = aParameterMap->begin();
           lIter != aParameterMap->end(); ++lIter )
     {
-      lUrl << ( lFirst?lFirst=false,"/?":"&" );
+      lUrl << ( lFirst?lFirst=false,"?":"&" );
 
       // url encode each value
       lUrl << ( *lIter ).first << "=" << urlencode ( ( *lIter ).second );
