@@ -117,6 +117,9 @@ namespace aws {
       ~GetQueueAttributesResponse() {}
       int getNumberOfMessages();
       int getNumberOfNotVisibleMessages();
+      time_t getLastModifiedTime();
+      time_t getCreateTime();
+      int getMessageRetentionPeriod();
 
     protected:
       friend class SQSConnectionImpl;
