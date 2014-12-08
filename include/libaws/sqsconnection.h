@@ -45,11 +45,12 @@ namespace aws {
       receiveMessage(const std::string &aQueueUrl,
                      int aNumberOfMessages = 0,
                      int aVisibilityTimeout = -1,
+                     int aWaitTimeSeconds = -1,
                      bool aDecodeFromBase64 = true) = 0;
 
       virtual DeleteMessageResponsePtr
       deleteMessage(const std::string &aQueueUrl, const std::string &aReceiptHandle) = 0;
-      
+
       virtual GetQueueAttributesResponsePtr
       getQueueAttributes( const std::string &aQueueUrl ) = 0;
 

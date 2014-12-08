@@ -73,6 +73,7 @@ namespace aws {
         receiveMessage( const std::string &aQueueUrl,
                         int aNumberOfMessages = 0,
                         int aVisibilityTimeout = -1,
+                        int aWaitTimeSeconds = -1,
                         bool aDecode = true);
         
         virtual ReceiveMessageResponse*

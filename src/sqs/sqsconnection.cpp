@@ -140,6 +140,7 @@ namespace aws { namespace sqs {
   SQSConnection::receiveMessage (const std::string &aQueueUrl,
                                  int aNumberOfMessages,
                                  int aVisibilityTimeout,
+                                 int aWaitTimeSeconds,
                                  bool aDecode) {
     ParameterMap lMap;
     if (aNumberOfMessages != 0) {
@@ -152,8 +153,13 @@ namespace aws { namespace sqs {
         s << aVisibilityTimeout;
         lMap.insert (ParameterPair ("VisibilityTimeout", s.str()));
       }
+    if (aWaitTimeSeconds > -1) {
+        std::stringstream s;
+        s << aWaitTimeSeconds;
+        lMap.insert (ParameterPair ("WaitTimeSeconds", s.str()));
+      }
     lMap.insert (ParameterPair ("AttributeName", "All"));
-    lMap.insert (ParameterPair ("Version", "2009-02-01"));
+    lMap.insert (ParameterPair ("Version", "2012-11-05"));
     return receiveMessage (aQueueUrl, lMap, aDecode);
   } 
   

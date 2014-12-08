@@ -50,11 +50,13 @@ namespace aws {
   SQSConnectionImpl::receiveMessage(const std::string &aQueueUrl,
                 int aNumberOfMessages,
                 int aVisibilityTimeout,
+                int aWaitTimeSeconds,
                 bool aDecode)
   {
     return new ReceiveMessageResponse(theConnection->receiveMessage(aQueueUrl,
                                                                     aNumberOfMessages,
                                                                     aVisibilityTimeout,
+                                                                    aWaitTimeSeconds,
                                                                     aDecode));
   }
 
